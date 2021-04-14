@@ -10,11 +10,7 @@ public class Carrier extends Ship
     private ArrayList<Point> Coordinates = new ArrayList<>();
 
     public Carrier() {
-        super(5);
+        super(5, false);
     }
 
-    @Override
-    public int getShipSize() {
-        return 5;
-    }
 }

@@ -10,11 +10,7 @@ public class BattleShip extends Ship
     private ArrayList<Point> Coordinates = new ArrayList<>();
 
     public BattleShip() {
-        super(4);
+        super(4, false);
     }
 
-    @Override
-    public int getShipSize() {
-        return 4;
-    }
 }

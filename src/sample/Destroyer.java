@@ -10,17 +10,7 @@ public class Destroyer extends Ship {
 
     public Destroyer()
     {
-        super(2);
-    }
-
-    @Override
-    public int getShipSize() {
-        return 2;
-    }
-
-    public ArrayList<Point> getShipCoordinates()
-    {
-        return Coordinates;
+        super(2, true);
     }
 
 }
