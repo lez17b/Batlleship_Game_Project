@@ -11,7 +11,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
+/*
 public class Menu implements EventHandler<ActionEvent>
 {
     private Button start;
@@ -58,3 +58,4 @@ public class Menu implements EventHandler<ActionEvent>
 
     }
 }
+*/

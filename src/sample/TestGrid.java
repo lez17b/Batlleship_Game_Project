@@ -2,6 +2,9 @@ package sample;
 
 import javafx.event.Event;
 import javafx.scene.Parent;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -37,6 +40,7 @@ public class TestGrid extends Parent {
             rows.getChildren().add(row);
         }
         getChildren().add(rows);
+
     }
 
     private void createGrid()
