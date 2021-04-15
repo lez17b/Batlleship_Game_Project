@@ -9,6 +9,9 @@ import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class TestGrid extends Parent {
     private BorderPane grid;
@@ -51,6 +54,129 @@ public class TestGrid extends Parent {
         return grid;
     }
 
+    public boolean shipPlacement(Ship ship, int xCoordinate, int yCoordinate)
+    {
+        if (validPlacement(ship, xCoordinate, yCoordinate))
+        {
+            int sizeOfShip = ship.life;
+
+            if (ship.Vertical)
+            {
+                for(int i = yCoordinate; i < yCoordinate + sizeOfShip; i++)
+                {
+                    Cell cell = getCell(xCoordinate, i);
+                    cell.ship = ship;
+                    if (!enemy)
+                    {
+                        cell.setFill(Color.GRAY);
+                        cell.setStroke(Color.WHITE);
+                    }
+                }
+            }
+            else
+            {
+                for(int i = xCoordinate; i < xCoordinate + sizeOfShip; i++)
+                {
+                    Cell cell = getCell(i, yCoordinate);
+                    cell.ship = ship;
+                    if (!enemy)
+                    {
+                        cell.setFill(Color.GRAY);
+                        cell.setStroke(Color.WHITE);
+                    }
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public Cell getCell(int x, int y)
+    {
+        return (Cell) ((HBox) rows.getChildren().get(y)).getChildren().get(x);
+    }
+
+    private boolean validPlacement(Ship ship, int x, int y)
+    {
+        int length = ship.life;
+
+        if (ship.Vertical)
+        {
+            for (int j = y; j < y + length; j++)
+            {
+                if(!isValidPlacement(x, j))
+                    return false;
+
+                Cell cell = getCell(x, j);
+
+                if (cell.ship != null)
+                    return false;
+
+                for (Cell neighbor : getNeighbors(x, j))
+                {
+                    if(!isValidPlacement(x, j))
+                        return false;
+
+                    if (cell.ship != null)
+                        return false;
+                }
+            }
+        }
+        else
+        {
+            for (int j = x; j < x + length; j++)
+            {
+                if(!isValidPlacement(j, y))
+                    return false;
+
+                Cell cell = getCell(j, y);
+
+                if (cell.ship != null)
+                    return false;
+
+                for (Cell neighbor : getNeighbors(j, y))
+                {
+                    if(!isValidPlacement(j, y))
+                        return false;
+
+                    if (cell.ship != null)
+                        return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean isValidPlacement(Point2D point)
+    {
+        return isValidPlacement(point.getX(), point.getY());
+    }
+
+    private boolean isValidPlacement(double x, double y)
+    {
+        return x >= 0 && x < 10 && y >= 0 && y < 10;
+    }
+
+    private Cell[] getNeighbors(int x, int y)
+    {
+        Point2D[] points = new Point2D[]
+                {
+                        new Point2D(x - 1, y),
+                        new Point2D(x + 1, y),
+                        new Point2D(x, y - 1),
+                        new Point2D(x, y + 1)
+                };
+        List<Cell> neighbors = new ArrayList<Cell>();
+
+        for (Point2D p : points)
+        {
+            if (isValidPlacement(p)){
+                neighbors.add(getCell((int)p.getX(), (int)p.getY()));
+            }
+        }
+        return neighbors.toArray(new Cell[0]);
+    }
+
     public class Cell extends Rectangle
     {
         public int x;
@@ -66,8 +192,8 @@ public class TestGrid extends Parent {
             this.x = x;
             this.y = y;
             this.board = board;
-            setFill(Color.LIGHTGRAY);
-            setStroke(Color.BLACK);
+            setFill(Color.WHITE);
+            setStroke(Color.GRAY);
         }
 
         public boolean shoot()

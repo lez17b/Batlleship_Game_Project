@@ -6,9 +6,9 @@ import java.util.ArrayList;
 
 public class Ship {
 
-    private int shipSize = 0;
-    private int life = 0;
-    private boolean Vertical = true;
+    public int shipSize;
+    public int life;
+    public boolean Vertical = true;
     private ArrayList<Point> Coordinates = new ArrayList<>();
 
     public Ship(int size, boolean Orientation)
