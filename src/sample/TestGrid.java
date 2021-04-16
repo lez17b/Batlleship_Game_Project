@@ -2,75 +2,89 @@ package sample;
 
 import javafx.event.Event;
 import javafx.scene.Parent;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.event.EventHandler;
+import javafx.event.Event;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
-
 import java.util.ArrayList;
 import java.util.List;
+import sample.Ships;
 
 
 public class TestGrid extends Parent {
-    private BorderPane grid;
-    private VBox rows = new VBox();
-    private boolean enemy = false;
     public int result = 5;
+    protected boolean canWin = false;
+    protected double score;
+    private boolean human = false;
+    private VBox gameGrid = new VBox();
+    private boolean computer = false;
+    private Destroyer destroyer;
+    private Carrier carrier;
+    private Cruiser cruiser;
+    private BattleShip batShip;
+    private Submarine submarine;
+    private static final int TOTALROWS = 10;
+    private static final int TOTALCOLS = 10;
 
-    public TestGrid(boolean enemy, EventHandler<? super MouseEvent> handler)
+    public TestGrid(boolean computer, boolean human)
     {
-        this.enemy = enemy;
+        this.computer = computer;
+        this.human = human;
         int index = 0;
         int counter;
-
-        for (; index < 10; index++)
-        {
-            HBox row = new HBox();
-            for (counter = 0; counter < 10; counter++)
-            {
-                Cell c = new Cell(counter, index, this);
-                c.setOnMouseClicked(handler);
-                row.getChildren().add(c);
-            }
-            rows.getChildren().add(row);
-        }
-        getChildren().add(rows);
-
+        score = 0;
     }
 
-    private void createGrid()
+    public TestGrid(boolean computer, boolean human, EventHandler<? super ContextMenuEvent> menuOption)
     {
-        GridPane playerGrid = new GridPane();
-        for (int i = 0; i < 10; i++)
-        {
-            playerGrid.getColumnConstraints().add(new ColumnConstraints(50));
-            playerGrid.getRowConstraints().add(new RowConstraints(50));
-        }
+        this.computer = computer;
+        this.human = human;
+        int index = 0;
+        int counter;
+        score = 0;
+
+        addCols(computer, human, menuOption);
     }
 
-    public Pane getRoot()
+    public TestGrid(boolean computer, EventHandler<? super MouseEvent> setShips)
     {
-        return grid;
+        this.computer = computer;
+        score = 0;
+
+        addColumns(computer, setShips);
     }
 
-    public boolean shipPlacement(Ship ship, int xCoordinate, int yCoordinate)
+    public void addShipsToArray()
     {
-        if (validPlacement(ship, xCoordinate, yCoordinate))
-        {
-            int sizeOfShip = ship.life;
+        ArrayList<Ships> shipsArray = new ArrayList<>();
+        shipsArray.add(destroyer);
+        shipsArray.add(carrier);
+        shipsArray.add(submarine);
+        shipsArray.add(batShip);
+        shipsArray.add(cruiser);
+    }
 
-            if (ship.Vertical)
+    public boolean shipPlacement(Ships battleShip, int xCoordinate, int yCoordinate)
+    {
+        if (validPlacement(battleShip, xCoordinate, yCoordinate))
+        {
+            int sizeOfShip = battleShip.getLife();
+
+            if (battleShip.getOrientation())
             {
                 for(int i = yCoordinate; i < yCoordinate + sizeOfShip; i++)
                 {
-                    Cell cell = getCell(xCoordinate, i);
-                    cell.ship = ship;
-                    if (!enemy)
+                    Square cell = getCell(xCoordinate, i);
+                    cell.battleShip = battleShip;
+                    if (!computer)
                     {
                         cell.setFill(Color.GRAY);
                         cell.setStroke(Color.WHITE);
@@ -81,9 +95,9 @@ public class TestGrid extends Parent {
             {
                 for(int i = xCoordinate; i < xCoordinate + sizeOfShip; i++)
                 {
-                    Cell cell = getCell(i, yCoordinate);
-                    cell.ship = ship;
-                    if (!enemy)
+                    Square cell = getCell(i, yCoordinate);
+                    cell.battleShip = battleShip;
+                    if (!computer)
                     {
                         cell.setFill(Color.GRAY);
                         cell.setStroke(Color.WHITE);
@@ -95,33 +109,58 @@ public class TestGrid extends Parent {
         return false;
     }
 
-    public Cell getCell(int x, int y)
+    public void addColumns(boolean c, EventHandler<? super MouseEvent> mouseClick)
     {
-        return (Cell) ((HBox) rows.getChildren().get(y)).getChildren().get(x);
+        int firstCol = 0;
+        int firstRow;
+
+        for (; firstCol < TOTALCOLS; firstCol++)
+        {
+            HBox columns = new HBox();
+            for (firstRow = 0; firstRow < TOTALROWS; firstRow++)
+            {
+                Square gridSquares = new Square(firstRow, firstCol, this);
+                gridSquares.setOnMouseClicked(mouseClick);
+                destroyer = null;
+                cruiser = null;
+                submarine = null;
+                carrier = null;
+                batShip = null;
+                columns.getChildren().add(gridSquares);
+            }
+            gameGrid.getChildren().add(columns);
+        }
+        getChildren().add(gameGrid);
+        addShipsToArray();
     }
 
-    private boolean validPlacement(Ship ship, int x, int y)
+    public Square getCell(int x, int y)
     {
-        int length = ship.life;
+        return (Square) ((HBox) gameGrid.getChildren().get(y)).getChildren().get(x);
+    }
 
-        if (ship.Vertical)
+    private boolean validPlacement(Ships battleShip, int x, int y)
+    {
+        int length = battleShip.getLife();
+
+        if (battleShip.getOrientation())
         {
             for (int j = y; j < y + length; j++)
             {
                 if(!isValidPlacement(x, j))
                     return false;
 
-                Cell cell = getCell(x, j);
+                Square cell = getCell(x, j);
 
-                if (cell.ship != null)
+                if (cell.battleShip != null)
                     return false;
 
-                for (Cell neighbor : getNeighbors(x, j))
+                for (Square neighbor : getNeighbors(x, j))
                 {
                     if(!isValidPlacement(x, j))
                         return false;
 
-                    if (cell.ship != null)
+                    if (cell.battleShip != null)
                         return false;
                 }
             }
@@ -133,17 +172,17 @@ public class TestGrid extends Parent {
                 if(!isValidPlacement(j, y))
                     return false;
 
-                Cell cell = getCell(j, y);
+                Square cell = getCell(j, y);
 
-                if (cell.ship != null)
+                if (cell.battleShip != null)
                     return false;
 
-                for (Cell neighbor : getNeighbors(j, y))
+                for (Square neighbor : getNeighbors(j, y))
                 {
                     if(!isValidPlacement(j, y))
                         return false;
 
-                    if (cell.ship != null)
+                    if (cell.battleShip != null)
                         return false;
                 }
             }
@@ -156,12 +195,32 @@ public class TestGrid extends Parent {
         return isValidPlacement(point.getX(), point.getY());
     }
 
+    public void addCols(boolean computer, boolean human, EventHandler<? super ContextMenuEvent> menuOption)
+    {
+        int firstCol = 0;
+        int firstRow;
+
+        for (; firstCol < TOTALCOLS; firstCol++)
+        {
+            HBox columns = new HBox();
+            for (firstRow = 0; firstRow < TOTALROWS; firstRow++)
+            {
+                Square gridSquares = new Square(firstRow, firstCol, this);
+                gridSquares.setOnMouseClicked((EventHandler<? super MouseEvent>) menuOption);
+                columns.getChildren().add(gridSquares);
+            }
+            gameGrid.getChildren().add(columns);
+        }
+        getChildren().add(gameGrid);
+        addShipsToArray();
+    }
+
     private boolean isValidPlacement(double x, double y)
     {
         return x >= 0 && x < 10 && y >= 0 && y < 10;
     }
 
-    private Cell[] getNeighbors(int x, int y)
+    private Square[] getNeighbors(int x, int y)
     {
         Point2D[] points = new Point2D[]
                 {
@@ -170,7 +229,7 @@ public class TestGrid extends Parent {
                         new Point2D(x, y - 1),
                         new Point2D(x, y + 1)
                 };
-        List<Cell> neighbors = new ArrayList<Cell>();
+        List<Square> neighbors = new ArrayList<Square>();
 
         for (Point2D p : points)
         {
@@ -178,44 +237,6 @@ public class TestGrid extends Parent {
                 neighbors.add(getCell((int)p.getX(), (int)p.getY()));
             }
         }
-        return neighbors.toArray(new Cell[0]);
-    }
-
-    public class Cell extends Rectangle
-    {
-        public int x;
-        public int y;
-        public Ship ship = null;
-        public boolean wasShot = false;
-
-        private TestGrid board;
-
-        public Cell(int x, int y, TestGrid board)
-        {
-            super(30,30);
-            this.x = x;
-            this.y = y;
-            this.board = board;
-            setFill(Color.WHITE);
-            setStroke(Color.GRAY);
-        }
-
-        public boolean shoot()
-        {
-            wasShot = true;
-            setFill(Color.BLACK);
-
-            if (ship != null)
-            {
-                ship.hit();
-                setFill(Color.RED);
-                if (!ship.isAlive())
-                {
-                    board.result--;
-                }
-                return true;
-            }
-            return false;
-        }
+        return neighbors.toArray(new Square[0]);
     }
 }

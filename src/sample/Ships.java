@@ -1,6 +1,4 @@
-/*
 package sample;
-
 
 import javafx.event.Event;
 import javafx.scene.Parent;
@@ -11,19 +9,19 @@ import java.awt.Point;
 import java.util.ArrayList;
 import sample.Destroyer;
 
-public class Ship {
+public class Ships {
     private int shipSize;
     private int life;
     private boolean Vertical = true;
     private ArrayList<Point> Coordinates = new ArrayList<>();
-    private ArrayList<Ship> allShips = new ArrayList<>(5);
+    private ArrayList<Ships> allShips = new ArrayList<>(5);
 
-    public Ship(int size)
+    public Ships(int size)
     {
         shipSize = size;
     }
 
-    public Ship(int size, boolean Orientation)
+    public Ships(int size, boolean Orientation)
     {
         shipSize = size;
         life = size;
@@ -73,4 +71,3 @@ public class Ship {
         life--;
     }
 }
-*/

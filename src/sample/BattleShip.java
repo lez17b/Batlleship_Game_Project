@@ -1,11 +1,11 @@
 package sample;
 
-import sample.Ship;
+import sample.Ships;
 
 import java.awt.*;
 import java.util.ArrayList;
 
-public class BattleShip extends Ship
+public class BattleShip extends Ships
 {
     private ArrayList<Point> Coordinates = new ArrayList<>();
 
