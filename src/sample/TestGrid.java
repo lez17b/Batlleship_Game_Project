@@ -5,21 +5,15 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.event.EventHandler;
-import javafx.event.Event;
-import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import sample.Ships;
-
 
 public class TestGrid extends Parent {
     public int result = 5;

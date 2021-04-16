@@ -1,34 +1,17 @@
 package sample;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-import javafx.scene.Parent;
-import sample.TestGrid;
-import sample.Ships;
-import java.awt.event.MouseEvent;
-import java.util.Random;
-import sample.Main;
-
 
 public class Menu extends javafx.scene.control.MenuBar implements EventHandler<ActionEvent>
 {
@@ -58,10 +41,10 @@ public class Menu extends javafx.scene.control.MenuBar implements EventHandler<A
                     Stage stage = new Stage();
                     VBox textVbox = new VBox();
                     Text textx = new Text("\n" +
-                            "                                                 Welcome to the Battle ship Game\n"
-                            + " Once You have chose start game you will be able to place your ships, and once\n "
-                            + " are placed, you will be able to shoot, the same logic will take place for the CPU.\n"
-                            + " If you want to pause the game you can just clic the start game button and uncheck it. \n"
+                            "                                                 Welcome to the Battleship Game\n"
+                            + " Once you have chose start game you will be able to place your ships, and once\n "
+                            + " they are placed, you will be able to shoot; the same logic will take place for the CPU.\n"
+                            + " If you want to pause the game, you can just click the start game button and uncheck it. \n"
                             + "                                                              Enjoy the game!   \n"
                             + "                                                     (Close this window to start)");
                     textx.setFont(Font.font ("Georgia", 20));
@@ -69,7 +52,7 @@ public class Menu extends javafx.scene.control.MenuBar implements EventHandler<A
                     textx.setTextAlignment(TextAlignment.JUSTIFY);
                     textVbox.getChildren().add(textx);
 
-                    Scene stageS = new Scene(textVbox, 750, 200);
+                    Scene stageS = new Scene(textVbox, 775, 200);
 
                     stage.setResizable(false);
 
@@ -109,7 +92,6 @@ public class Menu extends javafx.scene.control.MenuBar implements EventHandler<A
                 Platform.exit();
             }
         });
-
 
         // Help tab
         javafx.scene.control.Menu menu3 = new javafx.scene.control.Menu("Help");
@@ -163,7 +145,6 @@ public class Menu extends javafx.scene.control.MenuBar implements EventHandler<A
         MenuBar menuBar = new MenuBar();
         menuBar.getMenus().addAll(menu, menu2, menu3);
         root.setTop(menuBar);
-
     }
 
     @Override

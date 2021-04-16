@@ -6,9 +6,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.event.EventHandler;
-import javafx.geometry.Point2D;
-import javafx.scene.input.MouseEvent;
-import java.util.ArrayList;
 import java.util.List;
 import sample.Ships;
 

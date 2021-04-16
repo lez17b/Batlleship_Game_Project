@@ -14,7 +14,4 @@ public class BattleShip extends Ships
         //FileInputStream inputstream = new FileInputStream("sample/1x1.png");
         //Image image = new Image(inputstream);
     }
-
-
-
 }

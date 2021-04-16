@@ -3,8 +3,6 @@ package sample;
 import javafx.event.Event;
 import javafx.scene.Parent;
 import javafx.scene.shape.Rectangle;
-import javafx.event.EventHandler;
-import javafx.geometry.Point2D;
 import java.awt.Point;
 import java.util.ArrayList;
 import sample.Destroyer;
