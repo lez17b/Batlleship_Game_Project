@@ -1,6 +1,5 @@
 package sample;
 
-import sample.Ships;
 import java.awt.*;
 import java.util.ArrayList;
 
