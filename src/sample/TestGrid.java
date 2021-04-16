@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.event.Event;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
@@ -72,43 +73,6 @@ public class TestGrid extends Parent {
         shipsArray.add(cruiser);
     }
 
-    public boolean shipPlacement(Ships battleShip, int xCoordinate, int yCoordinate)
-    {
-        if (validPlacement(battleShip, xCoordinate, yCoordinate))
-        {
-            int sizeOfShip = battleShip.getLife();
-
-            if (battleShip.getOrientation())
-            {
-                for(int i = yCoordinate; i < yCoordinate + sizeOfShip; i++)
-                {
-                    Square cell = getCell(xCoordinate, i);
-                    cell.battleShip = battleShip;
-                    if (!computer)
-                    {
-                        cell.setFill(Color.GRAY);
-                        cell.setStroke(Color.WHITE);
-                    }
-                }
-            }
-            else
-            {
-                for(int i = xCoordinate; i < xCoordinate + sizeOfShip; i++)
-                {
-                    Square cell = getCell(i, yCoordinate);
-                    cell.battleShip = battleShip;
-                    if (!computer)
-                    {
-                        cell.setFill(Color.GRAY);
-                        cell.setStroke(Color.WHITE);
-                    }
-                }
-            }
-            return true;
-        }
-        return false;
-    }
-
     public void addColumns(boolean c, EventHandler<? super MouseEvent> mouseClick)
     {
         int firstCol = 0;
@@ -134,65 +98,100 @@ public class TestGrid extends Parent {
         addShipsToArray();
     }
 
-    public Square getCell(int x, int y)
+
+    public void placeShipVertical(Ships battleShip, int xCoordinate, int yCoordinate, int shipSize, int limit)
     {
-        return (Square) ((HBox) gameGrid.getChildren().get(y)).getChildren().get(x);
+        int counter = yCoordinate;
+
+        while (counter < limit)
+        {
+            Square playerSquare = getSquarePosition(xCoordinate, counter);
+            playerSquare.battleShip = battleShip;
+            if (!computer)
+            {
+                playerSquare.setFill(Color.GRAY);
+                playerSquare.setStroke(Color.WHITE);
+            }
+            counter++;
+        }
     }
 
-    private boolean validPlacement(Ships battleShip, int x, int y)
+    public boolean checkVerticalPlacement(Ships battleShip, int xCoordinate, int yCoordinate, int limit)
     {
-        int length = battleShip.getLife();
+        boolean res = true;
+        int current = yCoordinate;
+        int temp;
 
-        if (battleShip.getOrientation())
+        while (current < limit)
         {
-            for (int j = y; j < y + length; j++)
-            {
-                if(!isValidPlacement(x, j))
-                    return false;
+            if(!isValidPlacement(xCoordinate, current))
+                res = false;
 
-                Square cell = getCell(x, j);
-
-                if (cell.battleShip != null)
-                    return false;
-
-                for (Square neighbor : getNeighbors(x, j))
-                {
-                    if(!isValidPlacement(x, j))
-                        return false;
-
-                    if (cell.battleShip != null)
-                        return false;
-                }
-            }
+            current++;
         }
-        else
-        {
-            for (int j = x; j < x + length; j++)
-            {
-                if(!isValidPlacement(j, y))
+        return res;
+    }
+
+    public Square getSquarePosition(int xCoordinate, int yCoordinate)
+    {
+        Node s = ((HBox) gameGrid.getChildren().get(yCoordinate)).getChildren().get(xCoordinate);
+        return (Square) s;
+    }
+
+    private boolean validPlacement(Ships battleShip, int xCoordinate, int yCoordinate) {
+        int position;
+        int temp;
+        int totalSize = battleShip.getLife();
+
+        if (battleShip.getOrientation()) {
+            int limit = yCoordinate + totalSize;
+            position = yCoordinate;
+
+            while (position < limit) {
+                if (!isValidPlacement(xCoordinate, position))
                     return false;
 
-                Square cell = getCell(j, y);
+                Square currentSquare = getSquarePosition(xCoordinate, position);
+
+                if (currentSquare.battleShip != null)
+                    return false;
+
+                position++;
+            }
+        } else {
+            int upperLimit = xCoordinate + totalSize;
+            temp = xCoordinate;
+
+            while (temp < upperLimit) {
+                if (!isValidPlacement(temp, yCoordinate))
+                    return false;
+
+                Square cell = getSquarePosition(temp, yCoordinate);
 
                 if (cell.battleShip != null)
                     return false;
 
-                for (Square neighbor : getNeighbors(j, y))
-                {
-                    if(!isValidPlacement(j, y))
-                        return false;
-
-                    if (cell.battleShip != null)
-                        return false;
-                }
+                temp++;
             }
         }
         return true;
     }
 
-    private boolean isValidPlacement(Point2D point)
+    public void placeShipHorizontal(Ships battleShip, int xCoordinate, int yCoordinate, int shipSize, int limit)
     {
-        return isValidPlacement(point.getX(), point.getY());
+        int counterHorizontal = xCoordinate;
+
+        while (counterHorizontal < limit)
+        {
+            Square horizontalShip = getSquarePosition(counterHorizontal, yCoordinate);
+            horizontalShip.battleShip = battleShip;
+            if (!computer)
+            {
+                horizontalShip.setFill(Color.GRAY);
+                horizontalShip.setStroke(Color.WHITE);
+            }
+            counterHorizontal++;
+        }
     }
 
     public void addCols(boolean computer, boolean human, EventHandler<? super ContextMenuEvent> menuOption)
@@ -215,28 +214,33 @@ public class TestGrid extends Parent {
         addShipsToArray();
     }
 
-    private boolean isValidPlacement(double x, double y)
+    private boolean isValidPlacement(double xCoordinate, double yCoordinate)
     {
-        return x >= 0 && x < 10 && y >= 0 && y < 10;
+        return xCoordinate >= 0 && xCoordinate < TOTALROWS && yCoordinate >= 0 && yCoordinate < TOTALCOLS;
     }
 
-    private Square[] getNeighbors(int x, int y)
+    public boolean shipPlacement(Ships battleShip, int xCoordinate, int yCoordinate)
     {
-        Point2D[] points = new Point2D[]
-                {
-                        new Point2D(x - 1, y),
-                        new Point2D(x + 1, y),
-                        new Point2D(x, y - 1),
-                        new Point2D(x, y + 1)
-                };
-        List<Square> neighbors = new ArrayList<Square>();
-
-        for (Point2D p : points)
+        int sizeOfShip;
+        int shipOrientation;
+        boolean flag = false;
+        if (validPlacement(battleShip, xCoordinate, yCoordinate))
         {
-            if (isValidPlacement(p)){
-                neighbors.add(getCell((int)p.getX(), (int)p.getY()));
+            sizeOfShip = battleShip.getLife();
+
+            if (battleShip.getOrientation())
+            {
+                int limit = yCoordinate + sizeOfShip;
+                placeShipVertical(battleShip, xCoordinate, yCoordinate, sizeOfShip, limit);
             }
+            else
+            {
+                int limit = xCoordinate + sizeOfShip;
+                placeShipHorizontal(battleShip, xCoordinate, yCoordinate, sizeOfShip, limit);
+            }
+            flag = true;
+            return flag;
         }
-        return neighbors.toArray(new Square[0]);
+        return flag;
     }
 }
