@@ -1,4 +1,4 @@
-/*package sample;
+package sample;
 
 import javafx.event.Event;
 import javafx.scene.Node;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import sample.Ships;
 
-public class TestGrid extends Parent {
+public class GameGrid extends Parent {
     public int result = 5;
     protected boolean canWin = false;
     protected double score;
@@ -30,7 +30,7 @@ public class TestGrid extends Parent {
     private static final int TOTALROWS = 10;
     private static final int TOTALCOLS = 10;
 
-    public TestGrid(boolean computer, boolean human)
+    public GameGrid(boolean computer, boolean human)
     {
         this.computer = computer;
         this.human = human;
@@ -39,7 +39,7 @@ public class TestGrid extends Parent {
         score = 0;
     }
 
-    public TestGrid(boolean computer, boolean human, EventHandler<? super ContextMenuEvent> menuOption)
+    public GameGrid(boolean computer, boolean human, EventHandler<? super ContextMenuEvent> menuOption)
     {
         this.computer = computer;
         this.human = human;
@@ -50,7 +50,7 @@ public class TestGrid extends Parent {
         addCols(computer, human, menuOption);
     }
 
-    public TestGrid(boolean computer, EventHandler<? super MouseEvent> setShips)
+    public GameGrid(boolean computer, EventHandler<? super MouseEvent> setShips)
     {
         this.computer = computer;
         score = 0;
@@ -238,4 +238,4 @@ public class TestGrid extends Parent {
         }
         return flag;
     }
-}*/
+}

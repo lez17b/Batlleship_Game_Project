@@ -30,8 +30,8 @@ public class Player {
     private static int numOfShips = 5;
     private static boolean playerAction = false;
     private static Random computerAction = new Random();
-    private static TestGrid playerBoard;
-    private static TestGrid computerBoard;
+    private static GameGrid playerBoard;
+    private static GameGrid computerBoard;
     private int shipsToPlace2 = 5;
     private static final int MAXROWS = 10;
     private static final int MAXCOLS = 10;
@@ -189,7 +189,7 @@ public class Player {
 
     public static void setPlayerAction(sample.Menu menuBar)
     {
-        playerBoard = new TestGrid(false, event -> {
+        playerBoard = new GameGrid(false, event -> {
             if (menuBar.gameStart) {
                 if (playerAction)
                     return;
@@ -217,7 +217,7 @@ public class Player {
 
     private static void computerAttack()
     {
-        computerWait(200);
+        computerWait(180);
         while (computerTurn)
         {
             Square totalSquare = getSquare();
@@ -271,7 +271,7 @@ public class Player {
 
     public static void setComputerAction(sample.Menu menuBar)
     {
-        computerBoard = new TestGrid(true, event -> {
+        computerBoard = new GameGrid(true, event -> {
             if (menuBar.gameStart) {
                 if (!playerAction)
                     return;

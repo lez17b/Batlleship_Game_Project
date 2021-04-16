@@ -11,8 +11,8 @@ import sample.Ships;
 
 public class Square extends Rectangle
 {
-    private TestGrid grid;
-    private TestGrid computerGrid;
+    private GameGrid grid;
+    private GameGrid computerGrid;
     public int xCoordinate;
     public int yCoordinate;
     public int shipPos;
@@ -25,7 +25,7 @@ public class Square extends Rectangle
     {
     }
 
-    public Square(int xCoordinate, int yCoordinate, TestGrid grid) {
+    public Square(int xCoordinate, int yCoordinate, GameGrid grid) {
         super(XPOSITION, YPOSITION);
         this.xCoordinate = xCoordinate;
         this.yCoordinate = yCoordinate;
@@ -36,7 +36,7 @@ public class Square extends Rectangle
         setStroke(Color.BLACK);
     }
 
-    public Square(int xCoordinate, int yCoordinate, TestGrid grid, int shipPos, TestGrid computerGrid)
+    public Square(int xCoordinate, int yCoordinate, GameGrid grid, int shipPos, GameGrid computerGrid)
     {
         super(XPOSITION, YPOSITION);
         this.xCoordinate = xCoordinate;
