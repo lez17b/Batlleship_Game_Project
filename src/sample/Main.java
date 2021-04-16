@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,7 +21,6 @@ import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
 import sample.Square;
 import javafx.scene.text.Font;
 //import sample.Menu;
@@ -45,83 +45,72 @@ public class Main extends Application {
     private Parent createContent()
     {
         BorderPane root = new BorderPane();
+        sample.Menu menuBar = new sample.Menu(root);
+        menuBar.getMenus();
 
         root.setPrefSize(900, 550);
 
-        sample.Menu Menubar = new sample.Menu(root);
-        Menubar.getMenus();
+            enemyBoard = new TestGrid(true, event -> {
+                if (menuBar.gameStart) {
+                    if (!running)
+                        return;
 
+                    Square cell = (Square) event.getSource();
 
+                    if (cell.isBoatHit)
+                        return;
 
-        enemyBoard = new TestGrid(true, event ->{
-            if(Menubar.gameStart) {
-                if (!running)
-                    return;
-                Square cell = (Square) event.getSource();
+                    enemyTurn = !cell.userAction();
 
-                if (cell.isBoatHit)
-                    return;
+                    if (enemyBoard.result == 0) {
+                        Stage newStage = new Stage();
+                        VBox comp = new VBox();
+                        Text nameField = new Text("Player 2 WINS!");
 
-                enemyTurn = !cell.userAction();
+                        nameField.setFont(Font.font("Georgia", 40));
+                        nameField.setTextAlignment(TextAlignment.CENTER);
+                        nameField.setTextAlignment(TextAlignment.JUSTIFY);
+                        comp.getChildren().add(nameField);
 
-                if (enemyBoard.result == 0) {
-                    Stage newStage = new Stage();
-                    VBox comp = new VBox();
-                    Text nameField = new Text("Player 2 WINS!");
+                        Scene stageScene = new Scene(comp, 290, 100);
 
-                    nameField.setFont(Font.font("Georgia", 40));
-                    nameField.setTextAlignment(TextAlignment.CENTER);
-                    nameField.setTextAlignment(TextAlignment.JUSTIFY);
-                    comp.getChildren().add(nameField);
+                        newStage.setResizable(false);
+                        newStage.setScene(stageScene);
+                        newStage.show();
 
-                    Scene stageScene = new Scene(comp, 290, 100);
-
-                    newStage.setResizable(false);
-                    newStage.setScene(stageScene);
-                    newStage.show();
-
+                    }
+                    if (enemyTurn)
+                        enemyMove();
                 }
-                if (enemyTurn)
-                    enemyMove();
-            }
-
-        });
+            });
 
 
-        player2Board = new TestGrid(false, event ->{
-            if(Menubar.gameStart) {
-                if (running)
-                    return;
 
-                Square cell = (Square) event.getSource();
+            player2Board = new TestGrid(false, event -> {
+                if (menuBar.gameStart) {
+                    if (running)
+                        return;
 
-                if (cell.isBoatHit)
-                    return;
+                    Square cell = (Square) event.getSource();
 
-                player2Turn = !cell.userAction();
+                    if (cell.isBoatHit)
+                        return;
 
-                if (player2Board.shipPlacement(new Ships(shipsToPlace, event.getButton() == MouseButton.PRIMARY), cell.xCoordinate, cell.yCoordinate)) {
-                    if (--shipsToPlace == 0) {
-                        startGame();
+                    player2Turn = !cell.userAction();
+
+
+                    if (player2Board.shipPlacement(new Ships(shipsToPlace, event.getButton() == MouseButton.PRIMARY), cell.xCoordinate, cell.yCoordinate)) {
+                        if (--shipsToPlace == 0) {
+                            startGame();
+                        }
                     }
                 }
-            }
+            });
 
 
-
-        });
-
-        HBox hbox = new HBox(110, enemyBoard, player2Board);
-        hbox.setAlignment(Pos.CENTER);
-        root.setCenter(hbox);
-        if(Menubar.gameRestart)
-        {
-            HBox hbox2 = new HBox(110, enemyBoard, player2Board);
-            hbox2.setAlignment(Pos.CENTER);
-            root.setCenter(hbox2);
-        }
-
-
+            HBox hbox = new HBox(110, enemyBoard, player2Board);
+            hbox.setAlignment(Pos.CENTER);
+            root.setCenter(hbox);
 
         root.setStyle("-fx-background-image: url('/sample/oceanbg3.jpeg');");
 
@@ -138,6 +127,73 @@ public class Main extends Application {
         root.getChildren().add(text);
         root.getChildren().add(text2);
 
+        //Menu menu = new Menu("Start Game");
+        //Menu menu2 = new Menu("Quit Game");
+
+        /*
+        // Battleship Tab
+        Menu menu = new Menu("Battleship");
+        //Menu menu2 = new Menu("Quit Game");
+        MenuItem startItem = new MenuItem("Start Game");
+        MenuItem quitItem = new MenuItem("Quit Game");
+        menu.getItems().add(startItem);
+        menu.getItems().add(quitItem);
+
+
+        quitItem.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Platform.exit();
+            }
+        });
+
+        Menu menu3 = new Menu("Help");
+
+        MenuItem helpItem = new MenuItem("View Controls");
+
+        menu3.getItems().add(helpItem);
+
+        helpItem.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent t) {
+                Stage stage = new Stage();
+                VBox comp2 = new VBox();
+                stage.setTitle("Help/Rules");
+
+                Text textField = new Text(" Rules:\n" +
+                        "\n" +
+                        "  The Game is based on the competition of two players against each other. The game\n" +
+                        "  takes place with the location of five ships, the size of the ships\n" +
+                        "  is between 1 and 5 spaces in the grid. Each player has a turn to shoot on an\n" +
+                        "  unknown 10x10 grid. And if it makes a shot, the other player starts losing until\n" +
+                        "  every ship is drawn. Based on the classic Battleship rules. Game will continue until\n" +
+                        "  all of the player's ships are destroyed. Good luck!\n" + "\n" +
+                        " Controls:\n" +
+                        "\n" +
+                        "  Right Click: Makes the ship vertically oriented and places it.\n" +
+                        "  Left-Click: Makes the ship horizontally oriented and places it.\n" +
+                        "\n" +
+                        "  Start game option in the menu to start the game.");
+
+                textField.setFont(Font.font ("Georgia", 20));
+                textField.setTextAlignment(TextAlignment.CENTER);
+                textField.setTextAlignment(TextAlignment.JUSTIFY);
+
+                comp2.getChildren().add(textField);
+
+                Scene stageScene = new Scene(comp2, 750, 400);
+
+                stage.setResizable(false);
+
+                stage.setScene(stageScene);
+                stage.show();
+            }
+        });
+
+
+        MenuBar menuBar = new MenuBar();
+        menuBar.getMenus().addAll(menu, menu3);
+        root.setTop(menuBar);
+        */
 
         return root;
     }
@@ -149,7 +205,7 @@ public class Main extends Application {
             int x = random.nextInt(10);
             int y = random.nextInt(10);
 
-            Square cell = player2Board.getCell(x, y);
+            Square cell = player2Board.getSquarePosition(x, y);
 
             if (cell.isBoatHit)
                 continue;
@@ -190,7 +246,9 @@ public class Main extends Application {
                 type--;
             }
         }
+
         running = true;
+
     }
 
     @Override
@@ -206,4 +264,5 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
 }

@@ -36,7 +36,7 @@ public class Square extends Rectangle
         this.battleShip = null;
         isBoatHit = false;
         setFill(Color.WHITE);
-        setStroke(Color.GRAY);
+        setStroke(Color.BLACK);
     }
 
     public Square(int xCoordinate, int yCoordinate, TestGrid grid, int shipPos, TestGrid computerGrid)
@@ -50,7 +50,7 @@ public class Square extends Rectangle
         this.shipPos = shipPos;
         isBoatHit = false;
         setFill(Color.WHITE);
-        setStroke(Color.GRAY);
+        setStroke(Color.BLACK);
     }
 
     public void checkAction()
