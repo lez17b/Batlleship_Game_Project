@@ -23,10 +23,14 @@ import javafx.stage.Stage;
 public class Menu extends javafx.scene.control.MenuBar implements EventHandler<ActionEvent>
 {
 
+    // game status bools
     public boolean gameStart = false;
     public boolean gameRestart = false;
 
+    // Menu class constructor
     public Menu(BorderPane root) {
+    
+        // menu creation
         javafx.scene.control.Menu menu = new javafx.scene.control.Menu("Battleship");
         CheckMenuItem startItem = new CheckMenuItem("Start Game");
         startItem.setText("Start Game");
