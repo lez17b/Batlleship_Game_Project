@@ -32,10 +32,13 @@ public class Menu extends javafx.scene.control.MenuBar implements EventHandler<A
     
         // menu creation
         javafx.scene.control.Menu menu = new javafx.scene.control.Menu("Battleship");
+        
+        // *** Start Game tab ***
         CheckMenuItem startItem = new CheckMenuItem("Start Game");
         startItem.setText("Start Game");
         menu.getItems().add(startItem);
 
+        // Icon asignation to the tab
         Image startIcon = new Image(getClass().getResourceAsStream("play-512.png"));
         ImageView startView = new ImageView(startIcon);
         startView.setFitWidth(30);
@@ -43,12 +46,16 @@ public class Menu extends javafx.scene.control.MenuBar implements EventHandler<A
 
         startItem.setGraphic(startView);
 
+        // Action hanlder for the tab
         startItem.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 if(startItem.isSelected())
                 {
+                    // sets the staus to true
                     gameStart = true;
+                    
+                    // Creates a Info box
                     Stage stage = new Stage();
                     VBox textVbox = new VBox();
                     Text textx = new Text("\n" +
@@ -74,11 +81,14 @@ public class Menu extends javafx.scene.control.MenuBar implements EventHandler<A
                     gameStart = false;
             }
         });
+        
 
+        // *** Exit Game tab ***
         javafx.scene.control.Menu menu2 = new javafx.scene.control.Menu("Exit");
         MenuItem quitItem = new MenuItem("Quit Game");
         menu2.getItems().add(quitItem);
 
+        // Icon assignation code for the tab
         Image quitIcon = new Image(getClass().getResourceAsStream("stop-512.png"));
         ImageView quitView = new ImageView(quitIcon);
         quitView.setFitWidth(30);
@@ -86,7 +96,7 @@ public class Menu extends javafx.scene.control.MenuBar implements EventHandler<A
 
         quitItem.setGraphic(quitView);
 
-
+        // Action handler that quits the game and window
         quitItem.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
