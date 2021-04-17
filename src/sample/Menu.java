@@ -64,16 +64,6 @@ public class Menu extends javafx.scene.control.MenuBar implements EventHandler<A
             }
         });
 
-        MenuItem restartItem = new MenuItem("RestartGame");
-        menu.getItems().add(restartItem);
-
-        restartItem.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                gameRestart = true;
-            }
-        });
-
         javafx.scene.control.Menu menu2 = new javafx.scene.control.Menu("Exit");
         MenuItem quitItem = new MenuItem("Quit Game");
         menu2.getItems().add(quitItem);
