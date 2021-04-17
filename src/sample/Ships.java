@@ -1,3 +1,10 @@
+/*  Names: Marco Jaen & Luciano Zavala
+    Instructor: Dr. Katie Brodhead
+    Class: COP3252 - Advanced Programming with Java
+    Final Project: Battleship Game using JavaFX
+    Date: 16 Apr. 2021
+*/
+
 package sample;
 
 import javafx.event.Event;
