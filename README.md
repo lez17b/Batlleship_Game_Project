@@ -4,7 +4,7 @@ A Classic Battleship Game designed and deployed in Java using the JavaFx Librari
 ## Requirements
 - The code is wrapped in a Jar file which contains the **JavaFX** library, nevertheless it's preferable to download it from the following website: https://openjfx.io
 - The code must be compiled using a **Java16** compiler.
-- To run the code you can use ``` java -jar JavaFx.jar ```
+- To run the code you can use ``` java -jar classproj.jar ```
 
 ### Game Rules
 
