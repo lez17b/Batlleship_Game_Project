@@ -5,8 +5,10 @@
     Date: 16 Apr. 2021
 */
 
+// This is the package where we put all of our Source Code files
 package sample;
 
+// These are the libraries that we import for the Destroyer Class
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.*;
@@ -30,14 +32,14 @@ public class Square extends Rectangle
     private static final double XPOSITION = 30;
     private static final double YPOSITION = 30;
 
-    // constructor
+    // constructor with no parameters
     public Square()
     {
     }
 
     // parameter constructor:  creates a grid and adds coordinates to it
     public Square(int xCoordinate, int yCoordinate, GameGrid grid) {
-        super(XPOSITION, YPOSITION);
+        super(XPOSITION, YPOSITION);   // We call super
         this.xCoordinate = xCoordinate;
         this.yCoordinate = yCoordinate;
         this.grid = grid;
@@ -65,6 +67,7 @@ public class Square extends Rectangle
     // Check action method
     public void checkAction()
     {
+        // we set the boolean to true, and color it dark blue
         isBoatHit = true;
         setFill(Color.DARKBLUE);
     }
@@ -72,15 +75,17 @@ public class Square extends Rectangle
     // Ship exists method
     public boolean shipExists()
     {
+        // If the ship is not null
         if(battleShip != null)
         {
+            // That means that the boolean is hit, so we color it red and return true
             battleShip.shipHit();
             setFill(Color.RED);
             return true;
         }
         else
         {
-            return false;
+            return false;           // Return false
         }
     }
 
@@ -99,17 +104,18 @@ public class Square extends Rectangle
     // user action method: returns if there was an action or not
     protected boolean userAction()
     {
-        boolean flag = false;
-        checkAction();
+        boolean flag = false;           // Set to false
+        checkAction();                  // Call the checkAction method
 
+        // If the ship exists, we proceed
         if (shipExists())
         {
-            if (!battleShip.sunkenShip())
+            if (!battleShip.sunkenShip())           // We call the sunkenShip method, and decrement the score
             {
                 decrementScore();
             }
             flag = true;
-            return flag;
+            return flag;                    // Return the boolean we created
         }
         else
             return flag;

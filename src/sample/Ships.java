@@ -5,8 +5,10 @@
     Date: 16 Apr. 2021
 */
 
+// This is the package where we put all of our Source Code files
 package sample;
 
+// These are the libraries that we import for the Destroyer Class
 import javafx.event.Event;
 import javafx.scene.Parent;
 import javafx.scene.shape.Rectangle;
