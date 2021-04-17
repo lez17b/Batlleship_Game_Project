@@ -18,6 +18,8 @@ import sample.Ships;
 
 public class Square extends Rectangle
 {
+
+    // Game grid attributes 
     private GameGrid grid;
     private GameGrid computerGrid;
     public int xCoordinate;
@@ -28,10 +30,12 @@ public class Square extends Rectangle
     private static final double XPOSITION = 30;
     private static final double YPOSITION = 30;
 
+    // constructor
     public Square()
     {
     }
 
+    // parameter constructor:  creates a grid and adds coordinates to it
     public Square(int xCoordinate, int yCoordinate, GameGrid grid) {
         super(XPOSITION, YPOSITION);
         this.xCoordinate = xCoordinate;
@@ -43,6 +47,7 @@ public class Square extends Rectangle
         setStroke(Color.BLACK);
     }
 
+    //parameter construcotr: Creates a grid with coordinates and ships located, also cretes an oponent grid
     public Square(int xCoordinate, int yCoordinate, GameGrid grid, int shipPos, GameGrid computerGrid)
     {
         super(XPOSITION, YPOSITION);
@@ -57,12 +62,14 @@ public class Square extends Rectangle
         setStroke(Color.BLACK);
     }
 
+    // Check action method
     public void checkAction()
     {
         isBoatHit = true;
         setFill(Color.DARKBLUE);
     }
 
+    // Ship exists method
     public boolean shipExists()
     {
         if(battleShip != null)
@@ -77,16 +84,19 @@ public class Square extends Rectangle
         }
     }
 
+    // Decrement score emthod
     public void decrementScore()
     {
         grid.result = grid.result - 1;
     }
 
+    // increment score emthod
     public void incrementScore()
     {
         grid.result = grid.result + 1;
     }
 
+    // user action method: returns if there was an action or not
     protected boolean userAction()
     {
         boolean flag = false;
