@@ -1,4 +1,4 @@
-# Batlleship Game Project
+# Battleship Game Project
 A Classic Battleship Game designed and deployed in Java using the JavaFx Libraries. 
 
 ## Requirements
@@ -14,19 +14,19 @@ The Game is based on the competition of two players against each other. The game
 
 ### Game Start
 
-For the game to start you have to look for the menu bar located on the top of the window and select the *Start Game* option which would cause a window to pop-up, oce you close that window after reading the instructions you will be able to locate your ships.
+For the game to start you have to look for the menu bar located on the top of the window and select the *Start Game* option which would cause a window to pop-up, once you close that window after reading the instructions, you will be able to locate your ships. After you place your five ships, you can proceed to attack the computer!
 
 ### Game Controls
 
-- Right Click: Makes the ship vertically oriented and places it. After placing the ships it is used to shoot in the oponent's board.
+- Right Click: Makes the ship vertically oriented and places it. After placing the ships it is used to shoot in the opponent's board.
 - Left-Click: Makes the ship horizontally oriented and places it.
 
 ### More Details
 
-The interphase is based on a **Menu bar** that appears in the top part of the window. On it, you will find 3 options:
+The interface is based on a **Menu bar** that appears in the top part of the window. On it, you will find 3 options:
 - Start Game, that we mentioned previously.
-- Quit, that contains the exit game option. (This also closes the window)
-- help, which contains the rules and controls for the game.
+- Quit, that contains the exit game option (this also closes the window).
+- Help, which contains the rules and controls for the game.
 
 ## Code Distribution
 
@@ -34,4 +34,4 @@ The code was divided in half for each person (Luciano Zavala and Marco Jaen).
 
 - Luciano Zavala: Ship.java, Carrier.java, Submarine.java, Destroyer.java, Battleship.java, Cruiser.java, Menu.java
 - Marco Jaen: Player.java, Square.java, gameGrid.java, manifest.mf
-- Togheter: Main.java, Launcher.java
+- Together: Main.java, Launcher.java
