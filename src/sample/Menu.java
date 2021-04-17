@@ -104,12 +104,13 @@ public class Menu extends javafx.scene.control.MenuBar implements EventHandler<A
             }
         });
 
-        // Help tab
+        // *** Help tab ***
         javafx.scene.control.Menu menu3 = new javafx.scene.control.Menu("Help");
         MenuItem helpItem = new MenuItem("View Controls");
 
         menu3.getItems().add(helpItem);
 
+        // Icon creation for the help tab
         Image viewIcon = new Image(getClass().getResourceAsStream("icon.png"));
         ImageView viewView = new ImageView(viewIcon);
         viewView.setFitWidth(30);
@@ -117,8 +118,11 @@ public class Menu extends javafx.scene.control.MenuBar implements EventHandler<A
 
         helpItem.setGraphic(viewView);
 
+        // Action Handler that displays a text box witht he rules and controls
         helpItem.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent t) {
+            
+                // Window code for the text
                 Stage stage = new Stage();
                 VBox comp2 = new VBox();
                 stage.setTitle("Help/Rules");
@@ -152,12 +156,14 @@ public class Menu extends javafx.scene.control.MenuBar implements EventHandler<A
                 stage.show();
             }
         });
-
+        
+        // Menu Object crration and asignation
         MenuBar menuBar = new MenuBar();
         menuBar.getMenus().addAll(menu, menu2, menu3);
         root.setTop(menuBar);
     }
 
+    // Event handler
     @Override
     public void handle(ActionEvent actionEvent) {
 
