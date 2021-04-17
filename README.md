@@ -35,3 +35,12 @@ The code was divided in half for each person (Luciano Zavala and Marco Jaen).
 - Luciano Zavala: Ship.java, Carrier.java, Submarine.java, Destroyer.java, Battleship.java, Cruiser.java, Menu.java
 - Marco Jaen: Player.java, Square.java, gameGrid.java, manifest.mf
 - Together: Main.java, Launcher.java
+
+## References
+
+- https://docs.oracle.com/javase/8/javafx/api/javafx/scene/paint/Color.html
+- https://docs.oracle.com/javase/8/javafx/api/javafx/event/Event.html
+- http://tutorials.jenkov.com/javafx/menubar.html
+- https://docs.oracle.com/javase/8/javafx/api/javafx/scene/shape/Rectangle.html
+- https://docs.oracle.com/javase/8/javafx/api/javafx/application/Application.html
+- https://openjfx.io/openjfx-docs/
